@@ -63,7 +63,8 @@ export default class Root extends Component {
       annotationNum: null,
       handler: this.showAnnotationFixed,
       x: null,
-      y: null
+      y: null,
+      fixed: true
     };
   }
 
@@ -78,6 +79,7 @@ export default class Root extends Component {
   }
 
   showAnnotationFixed(annotationNum, event) {
+    // swwap top/ left to bottom / right and move list into div.
     const x = 0;
     const y = 0;
     this.setState({ annotationNum, x, y });
@@ -111,14 +113,20 @@ export default class Root extends Component {
     const elHeight = (el) ? el.offsetHeight : 0;
     const elWidth = (el) ? el.offsetWidth : 0;
     const parentWidth = (el && el.parentElement) ? el.parentElement.offsetWidth : Infinity;
-    const { annotationNum, x, y } = this.state;
+    const { annotationNum, fixed, x, y } = this.state;
     const defaultStyle = { position: `absolute`, top: 0, left: 0, opacity: 0, visibility: `hidden` };
 
     if(annotationNum === null || idx !== annotationNum) { return defaultStyle; }
 
     const pad = 60;
 
-    return {
+    return (!fixed) ? {
+      position: `absolute`,
+      top: (elHeight + y + pad > window.innerHeight) ? (y - elHeight) : y,
+      left: (elHeight + x + pad > parentWidth) ? (x - elWidth - 10) : x + 10,
+      opacity: 1,
+      visibility: `visible`
+    } : {
       position: `absolute`,
       bottom: (elHeight + y + pad > window.innerHeight) ? (y - elHeight) : y,
       right: (elHeight + x + pad > parentWidth) ? (x - elWidth - 10) : x + 10,
@@ -137,12 +145,35 @@ export default class Root extends Component {
     );
   }
 
+  annotationList(items) {
+    const annotationListStyle = { display: `block` };
+    const annotationItems = items.map(this.annotation.bind(this));
+
+    return (
+      <ul style={ annotationListStyle }>
+        { annotationItems }
+      </ul>
+    );
+
+  }
+
+  swapHandlers() {
+    const { fixed } = this.state;
+
+    if(!fixed) {
+      this.setState({ fixed: !fixed, handler: this.showAnnotationFixed });
+    } else {
+      this.setState({ fixed: !fixed, handler: this.showAnnotation });
+    }
+  }
+
   render() {
     const foiaImageStyle = { height: `100%` };
-    const annotationItems = items.map(this.annotation.bind(this));
+    const annotationList = this.annotationList(items);
     const hotSpotItems = items.map(this.hotSpot.bind(this));
-    const annotationListStyle = { display: `block` };
     const hotSpotListStyle = { display: `block` };
+    const fixedList = (this.state.fixed) ? annotationList : ``;
+    const freeList = (!this.state.fixed) ? annotationList : ``;
 
     return (
       <div>
@@ -151,11 +182,12 @@ export default class Root extends Component {
           <ul style={ hotSpotListStyle }>
             { hotSpotItems }
           </ul>
-          <ul style={ annotationListStyle }>
-            { annotationItems }
-          </ul>
+          { fixedList }
         </div>
-
+        { freeList }
+        <button onClick={ this.swapHandlers.bind(this) }>
+          Swap
+        </button>
       </div>
     );
   }
