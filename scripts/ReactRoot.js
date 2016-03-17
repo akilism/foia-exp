@@ -2,8 +2,8 @@ import { default as React, Component } from "react";
 import { default as ReactDOM } from "react-dom";
 
 import foia from "../assets/foia.jpg";
-import jasonBlack from "../assets/jason_black.png";
-import jasonWhite from "../assets/jason_white.png";
+import mccain from "../assets//mccain.jpg";
+import talibanFive from "../assets/taliban_five.jpg";
 
 
 const items = [
@@ -16,6 +16,7 @@ const items = [
       sm: { y: 105, x: 330, w: 80, h: 24 }
     }},
   { text: `The time line of briefings given to congressional oversight committees and specific lawmakers about Bergdahl's capture shows that the Obama administration told lawmakers it was considering trading the Taliban Five for the soldier as far back as 2011.`,
+    img: talibanFive,
     breakpoints: {
       sm: { y: 140, x: 170, w: 242, h: 34 }
     }},
@@ -48,6 +49,7 @@ const items = [
       sm: { y: 211, x: 563, w: 281, h: 83 }
     }},
   { text: `The SRAP and the National Intelligence Officer (NIO) provided an update to key committee members, including Senator John McCain, a former prisoner of war and a critic of the Bergdahl/Taliban deal, about the status of talks with the Taliban. This entry, two years before Bergdahl's rescue, contains the first disclosure that committee members were opposed to the deal to trade the Taliban Five for Bergdahl. But the entry also notes that, according to then-SRAP Ambassador Marc Grossman, the US had not spoken with the Taliban for six months and a deal to trade the Taliban Five wasn't in the immediate offering. An important note here: Grossman told lawmakers that the administration might consider a deal in the future. Lawmakers requested Grossman commit to consulting them before a decision was made. He agreed. But the Obama administration broke that agreement when it rescued Bergdahl.`,
+    img: mccain,
     breakpoints: {
       sm: { y: 331, x: 560, w: 290, h: 110 }
     }}];
@@ -59,6 +61,7 @@ export default class Root extends Component {
     super(props);
     this.state = {
       annotationNum: null,
+      handler: this.showAnnotationFixed,
       x: null,
       y: null
     };
@@ -74,8 +77,15 @@ export default class Root extends Component {
     this.setState({ annotationNum, x, y });
   }
 
+  showAnnotationFixed(annotationNum, event) {
+    const x = 0;
+    const y = 0;
+    this.setState({ annotationNum, x, y });
+  }
+
   hotSpot(item, idx) {
     const { breakpoints } = item;
+    const handler = this.state.handler || () => {};
     const { x, y, w, h } = breakpoints.sm;
     const hotSpotStyle = { position: `absolute`,
       top: y,
@@ -86,7 +96,7 @@ export default class Root extends Component {
       border: `2px solid transparent` };
 
     return (
-      <li onMouseMove={ this.showAnnotation.bind(this, idx) }
+      <li onMouseMove={ handler.bind(this, idx) }
         onMouseOut={ this.hideAnnotation.bind(this) }
         style={ hotSpotStyle }
         ref={ `hotSpot_${idx}` }
@@ -110,8 +120,8 @@ export default class Root extends Component {
 
     return {
       position: `absolute`,
-      top: (elHeight + y + pad > window.innerHeight) ? (y - elHeight) : y,
-      left: (elHeight + x + pad > parentWidth) ? (x - elWidth - 10) : x + 10,
+      bottom: (elHeight + y + pad > window.innerHeight) ? (y - elHeight) : y,
+      right: (elHeight + x + pad > parentWidth) ? (x - elWidth - 10) : x + 10,
       opacity: 1,
       visibility: `visible`
     }
@@ -119,10 +129,10 @@ export default class Root extends Component {
 
   annotation(item, idx) {
     const annotationStyle = this.getAnnotationStyle(idx);
-
+    const img = (item.img) ? (<img src={item.img} className="annotation-image" />) : ``;
     return (
       <li className="annotation" style={ annotationStyle } ref={ `annotation_${idx}` } id={ `annotation_${idx}` }>
-        <span className="annotation-num">{ idx + 1 }</span> <span className="annotation-text">{ item.text }</span>
+        <div className="annotation-num">{ idx + 1 }</div> <div className="annotation-text">{img} { item.text }</div>
       </li>
     );
   }
@@ -141,10 +151,11 @@ export default class Root extends Component {
           <ul style={ hotSpotListStyle }>
             { hotSpotItems }
           </ul>
+          <ul style={ annotationListStyle }>
+            { annotationItems }
+          </ul>
         </div>
-        <ul style={ annotationListStyle }>
-          { annotationItems }
-        </ul>
+
       </div>
     );
   }
