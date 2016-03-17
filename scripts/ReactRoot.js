@@ -114,7 +114,7 @@ export default class Root extends Component {
     const elWidth = (el) ? el.offsetWidth : 0;
     const parentWidth = (el && el.parentElement) ? el.parentElement.offsetWidth : Infinity;
     const { annotationNum, fixed, x, y } = this.state;
-    const defaultStyle = { position: `absolute`, top: 0, left: 0, opacity: 0, visibility: `hidden` };
+    const defaultStyle = { position: `absolute`, top: 0, left: 0, opacity: 0, height: 0, visibility: `hidden`};
 
     if(annotationNum === null || idx !== annotationNum) { return defaultStyle; }
 
@@ -124,14 +124,12 @@ export default class Root extends Component {
       position: `absolute`,
       top: (elHeight + y + pad > window.innerHeight) ? (y - elHeight) : y,
       left: (elHeight + x + pad > parentWidth) ? (x - elWidth - 10) : x + 10,
-      opacity: 1,
-      visibility: `visible`
+      opacity: 1
     } : {
       position: `absolute`,
       bottom: (elHeight + y + pad > window.innerHeight) ? (y - elHeight) : y,
       right: (elHeight + x + pad > parentWidth) ? (x - elWidth - 10) : x + 10,
-      opacity: 1,
-      visibility: `visible`
+      opacity: 1
     }
   }
 

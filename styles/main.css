@@ -24,6 +24,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   pointer-events: none;
+  transition: opacity 250ms 50ms;
 }
 
 
