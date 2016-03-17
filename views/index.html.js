@@ -21,7 +21,7 @@ export default (
 
     </head>
     <body>
-      <div id="react-container" />
+      <div id="reactContainer" />
       <WebpackScriptEntry
         chunkName="client"
         chunkFilepath="../scripts/client.js"

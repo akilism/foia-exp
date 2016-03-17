@@ -1,0 +1,41 @@
+#reactContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  padding: 40px;
+}
+
+
+.annotation {
+  background: white;
+  font-size: 14px;
+  border: 2px solid black;
+  padding: 20px;
+  border-radius: 2px;
+  max-width: 560px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+
+.annotation-num {
+  font-family: TradeGothic, 'Helvetica Neue', Helvetica, Arial;
+  font-size: 28px;
+  font-weight: bold;
+  position: relative;
+  top: 4px;
+  display: inline-block;
+  margin-right: 3px;
+}
+
+
+.annotation-text {
+  font-family: Arial;
+  font-size: 12px;
+  line-height: 2;
+}
