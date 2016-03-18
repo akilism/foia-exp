@@ -2,24 +2,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
   padding: 40px;
 }
 
+@media only screen and (min-width : 1000px) {
+	#reactContainer {
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  position: absolute;
+	  top: 0;
+	  right: 0;
+	  bottom: 0;
+	  left: 0;
+	  overflow: hidden;
+	  padding: 40px;
+	}
+}
+
+.imageHolder {
+	position: relative;
+	max-width: 500px;
+	display: inline-block;
+}
 
 .annotation {
   background: white;
-  font-size: 12px;
-  border: 1px solid black;
+  font-size: 16px;
   padding: 20px;
-  border-radius: 2px;
   max-width: 500px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -27,6 +38,13 @@
   transition: opacity 250ms 50ms;
 }
 
+.hot-spot span {
+  font-family: 'Helvetica Neue', Helvetica, Arial;
+  font-size: 28px;
+  font-weight: bold;
+  position: relative;
+  left: -15px;
+}
 
 .annotation-num {
   font-family: 'Helvetica Neue', Helvetica, Arial;
@@ -38,16 +56,15 @@
   margin-right: 10px;
 }
 
-
 .annotation-text {
   font-family: Arial;
-  font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.25;
 }
-
 
 .annotation-image {
   margin-right: 5px;
   height: 65px;
   float: left;
 }
+
+
