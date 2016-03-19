@@ -111,6 +111,7 @@ export default class Root extends Component {
       cursor: `pointer`,
       border: `2px solid transparent` };
 
+      // <span>{idx + 1}</span>
     return (
       <li onMouseMove={ handler.bind(this, idx) }
         onMouseOut={ this.hideAnnotation.bind(this) }
@@ -118,7 +119,7 @@ export default class Root extends Component {
         className="hot-spot"
         ref={ `hotSpot_${idx}` }
         id={ `hotSpot_${idx}` }>
-        <span>{idx + 1}</span>
+
       </li>
     );
   }
